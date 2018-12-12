@@ -12,24 +12,27 @@ window.onload = function() {
     webgazer.setRegression('weightedRidge') /* currently must set regression and tracker */
         .setTracker('clmtrackr')
         .setGazeListener(function(data, clock) {
-            if (data != null){
-                var xx = 0;
-                var yy = 0;
+            if (videoType==2){
+            	
+            	var xx = 0; 
+	            var yy = 0;
 
-                if(data.x > 0)
-                    xx = data.x;
-                if(data.y > 0)
-                    yy = data.y;
+            	if(data!=null){
+	                if(data.x > 0)
+	                    xx = data.x;
+	                if(data.y > 0)
+	                    yy = data.y;	
+            	}
 
-                dots.push({
+            	dots.push({
                     video: videoType
                     ,second: Math.round(clock/1000)
                     ,frame: ixFrame
                     ,x: xx
                     ,y: yy
                 });
-
-                ixFrame++;
+                
+				ixFrame++;
             }
         })
         .begin()
@@ -57,7 +60,7 @@ window.onload = function() {
 
 };
 
-function SaveDots(){
+function SaveDots(fileName){
 
     $.ajax({
         type: 'POST',
