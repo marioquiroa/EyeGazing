@@ -24,6 +24,7 @@ function PopUpInstruction(){
     }
   }).then(isConfirm => {
     ShowCalibrationPoint();
+    videoType = 1;
   });
 
 }
@@ -106,7 +107,7 @@ $(document).ready(function(){
                           if (isConfirm){
                             //clear the calibration & hide the last middle button
                             ClearCanvas();
-                            videoType = 'n';
+                            videoType = 2;
                           } else {
                             //use restart function to restart the calibration
                             ClearCalibration();

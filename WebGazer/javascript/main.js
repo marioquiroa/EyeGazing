@@ -1,9 +1,13 @@
 var dots = [];
 var ixFrame = 0;
-var videoType = 'c';
+var videoType = 0;
+/*
+0 - initial face localization
+1 - callibration
+2 - content display
+*/
 window.onload = function() {
 
-    
     //start the webgazer tracker
     webgazer.setRegression('weightedRidge') /* currently must set regression and tracker */
         .setTracker('clmtrackr')
@@ -57,7 +61,7 @@ function SaveDots(){
 
     $.ajax({
         type: 'POST',
-        url: "save.php",
+        url: "saveDots.php",
         data: {
             something: JSON.stringify(dots)
         },
