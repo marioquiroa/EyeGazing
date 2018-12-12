@@ -47,6 +47,13 @@ window.onload = function() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         canvas.style.position = 'fixed';
+
+        var content_video = document.getElementById("content_video");
+		content_video.width = window.innerWidth;
+        content_video.height = window.innerHeight;
+        content_video.style.position = 'fixed';
+        
+
     };
 
     function checkIfReady() {
