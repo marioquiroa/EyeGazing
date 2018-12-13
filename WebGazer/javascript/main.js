@@ -12,31 +12,10 @@ window.onload = function() {
     webgazer.setRegression('weightedRidge') /* currently must set regression and tracker */
         .setTracker('clmtrackr')
         .setGazeListener(function(data, clock) {
-            if (videoType==2){
-            	
-            	var xx = 0; 
-	            var yy = 0;
-
-            	if(data!=null){
-	                if(data.x > 0)
-	                    xx = data.x;
-	                if(data.y > 0)
-	                    yy = data.y;	
-            	}
-
-            	dots.push({
-                    video: videoType
-                    ,second: Math.round(clock/1000)
-                    ,frame: ixFrame
-                    ,x: xx
-                    ,y: yy
-                });
-                
-				ixFrame++;
-            }
+            getDots(data, clock);
         })
         .begin()
-        .showPredictionPoints(true); /* shows a square every 100 milliseconds where current prediction is */
+        .showPredictionPoints(false); /* shows a square every 100 milliseconds where current prediction is */
 
 
     //Set up the webgazer video feedback.
@@ -54,8 +33,6 @@ window.onload = function() {
         content_video.height = window.innerHeight - 60;
         content_video.style.position = 'fixed';
         
-        
-
     };
 
     function checkIfReady() {
@@ -68,6 +45,31 @@ window.onload = function() {
     setTimeout(checkIfReady,100);
 
 };
+
+function getDots(data, clock){
+    if (videoType==2){
+        
+        var xx = 0; 
+        var yy = 0;
+
+        if(data!=null){
+            if(data.x > 0)
+                xx = data.x;
+            if(data.y > 0)
+                yy = data.y;    
+        }
+
+        dots.push({
+            video: videoType
+            ,second: Math.round(clock/1000)
+            ,frame: ixFrame
+            ,x: xx
+            ,y: yy
+        });
+        
+        ixFrame++;
+    }
+}
 
 function SaveDots(fileName){
 
