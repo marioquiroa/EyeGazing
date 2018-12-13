@@ -112,6 +112,7 @@ $(document).ready(function(){
                             videoType = 2;
                             dots = [];
                             ixFrame = 0;
+                            $("#content_video").show();
                           } else {
                             //use restart function to restart the calibration
                             ClearCalibration();

@@ -18,11 +18,11 @@ Instructions on use can be found in the README repository.
         <script async type="text/javascript" src="javascript/third-party/webgazer.js"></script>
     </head>
     <body LANG="en-US" LINK="#0000ff" DIR="LTR">
-      <!--
-      <video controls width="320" height="240" id="content_video" style="z-index: 10;">
+      
+      <video width="320" height="240" id="content_video" style="z-index: 10;">
         <source src="videos/10_mayo_volkswagen.mp4" type="video/mp4">
       </video>
-      -->
+      
       <canvas id="plotting_canvas" width="500" height="500" style="cursor:crosshair;background-color: coral;">
         
 
@@ -50,6 +50,7 @@ Instructions on use can be found in the README repository.
                 <!-- Accuracy -->
                 <li id="Accuracy"><a>Not yet Calibrated</a></li>
                 <li onclick="Restart()"><a href="#">Calibrate</a></li>
+                <li onclick="PlayPause()"><a href="#">Play/Pause</a></li>
                 <li onclick="SaveDots()"><a href="#">Save</a></li>
               </ul>
             </div>

@@ -7,7 +7,7 @@ var videoType = 0;
 2 - content display
 */
 window.onload = function() {
-
+    $("#content_video").hide();
     //start the webgazer tracker
     webgazer.setRegression('weightedRidge') /* currently must set regression and tracker */
         .setTracker('clmtrackr')
@@ -48,12 +48,12 @@ window.onload = function() {
         canvas.height = window.innerHeight;
         canvas.style.position = 'fixed';
         
-        /*
+        
         var content_video = document.getElementById("content_video");
-		content_video.width = window.innerWidth;
-        content_video.height = window.innerHeight;
+		content_video.width = window.innerWidth - 320;
+        content_video.height = window.innerHeight - 60;
         content_video.style.position = 'fixed';
-        */
+        
         
 
     };
@@ -99,3 +99,10 @@ function Restart(){
 }
 
 
+function PlayPause(){
+    var vid = document.getElementById("content_video"); 
+    if(vid.paused)
+        vid.play();
+    else
+        vid.pause();
+}
