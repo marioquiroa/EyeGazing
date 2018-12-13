@@ -81,9 +81,11 @@ li {
     top: 70px;
     right:2vw;
 }
+/****************/
 #Pt4{
     top:50vh;
-    left:2vw;
+    /*left:2vw;*/
+    left:340px;
 }
 #Pt5{
     top: 50vh;
@@ -93,9 +95,11 @@ li {
     top: 50vh;
     right:2vw;
 }
+/****************/
 #Pt7{
     bottom:2vw;
-    left: 2vw;
+    /*left: 2vw;*/
+    left:340px;
 }
 #Pt8{
     bottom:2vw;
@@ -104,4 +108,8 @@ li {
 #Pt9{
     bottom:2vw;
     right:2vw;
+}
+
+#plotting_canvas{
+    left:320px;
 }
