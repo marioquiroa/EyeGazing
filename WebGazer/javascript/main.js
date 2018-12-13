@@ -23,13 +23,13 @@ window.onload = function() {
 
         //Set up the main canvas. The main canvas is used to calibrate the webgazer.
         var canvas = document.getElementById("plotting_canvas");
-        canvas.width = window.innerWidth - 320;
+        canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         canvas.style.position = 'fixed';
         
         
         var content_video = document.getElementById("content_video");
-		content_video.width = window.innerWidth - 320;
+		content_video.width = window.innerWidth;
         content_video.height = window.innerHeight - 60;
         content_video.style.position = 'fixed';
 
