@@ -151,3 +151,42 @@ function ClearCalibration(){
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
+
+/*
+ * Sets store_points to true, so all the occuring prediction
+ * points are stored
+ */
+function store_points_variable(){
+  store_points_var = true;
+}
+
+/*
+ * Sets store_points to false, so prediction points aren't
+ * stored any more
+ */
+function stop_storing_points_variable(){
+  store_points_var = false;
+}
+
+/*
+ * Returns the stored tracker prediction points
+ */
+function get_points() {
+  var past50 = new Array(2);
+  past50[0] = xPast50;
+  past50[1] = yPast50;
+  return past50;
+}
+
+/**
+* This function occurs on resizing the frame
+* clears the canvas & then resizes it (as plots have moved position, can't resize without clear)
+*/
+function resize() {
+    var canvas = document.getElementById('plotting_canvas');
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+};
+window.addEventListener('resize', resize, false);
