@@ -119,3 +119,7 @@ li {
     top:60px;
 }
 
+video {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
