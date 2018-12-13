@@ -32,6 +32,7 @@ window.onload = function() {
 		content_video.width = window.innerWidth - 320;
         content_video.height = window.innerHeight - 60;
         content_video.style.position = 'fixed';
+
         
     };
 
@@ -39,7 +40,7 @@ window.onload = function() {
         if (webgazer.isReady()) {
             setup();
         } else {
-            setTimeout(checkIfReady, 100);
+            setTimeout(checkIfReady, 1000);
         }
     }
     setTimeout(checkIfReady,100);

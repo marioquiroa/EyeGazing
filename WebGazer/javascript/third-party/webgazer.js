@@ -10542,7 +10542,7 @@ function store_points(x, y, k) {
 
         // Set the boundaries of the face overlay validation box based on the preview
         topVal = (ph - boxSize)/2;
-        leftVal = (pw - boxSize)/2;
+        leftVal = (pw - boxSize)/2 + (window.innerWidth/2 - webgazer.params.videoViewerWidth/2);
 
         // top, left, width, height
         return [topVal, leftVal, boxSize, boxSize]
@@ -10878,7 +10878,8 @@ function store_points(x, y, k) {
         // Video and video preview
         //////////////////////////
         var topDist = '0px'
-        var leftDist = '0px'
+        //var leftDist = '100px'
+        var leftDist = (window.innerWidth/2 - webgazer.params.videoViewerWidth/2) + 'px'
 
         videoElement = document.createElement('video');
         videoElement.id = webgazer.params.videoElementId;
