@@ -15,7 +15,7 @@ window.onload = function() {
             getDots(data, clock);
         })
         .begin()
-        .showPredictionPoints(false); /* shows a square every 100 milliseconds where current prediction is */
+        .showPredictionPoints(true); /* shows a square every 100 milliseconds where current prediction is */
 
 
     //Set up the webgazer video feedback.
@@ -33,7 +33,6 @@ window.onload = function() {
         content_video.height = window.innerHeight - 60;
         content_video.style.position = 'fixed';
 
-        
     };
 
     function checkIfReady() {
@@ -81,6 +80,7 @@ function SaveDots(fileName){
             something: JSON.stringify(dots)
         },
         success: function(result) {
+            $("#content_video").hide();
             console.log('the data was successfully sent to the server');
         }
     });
@@ -104,8 +104,10 @@ function Restart(){
 
 function PlayPause(){
     var vid = document.getElementById("content_video"); 
-    if(vid.paused)
+    if(vid.paused){
+        $("#content_video").show();
         vid.play();
+    }
     else
         vid.pause();
 }

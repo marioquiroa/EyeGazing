@@ -64,7 +64,7 @@ li {
     border-color: black;
     border-style: solid;
     position:fixed;
-    z-index: 10;
+    z-index: 20;
 }
 
 /* Calibration point position */
@@ -112,10 +112,10 @@ li {
     
 }
 
-/*
-#webgazerVideoFeed
-,#webgazerFaceOverlay
-,#webgazerFaceFeedbackBox{
-    left: 50vw;
+#webgazerFaceOverlay,
+#webgazerFaceFeedbackBox,
+#webgazerVideoFeed{
+    z-index: 10;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
 }
-*/
