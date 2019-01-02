@@ -60,11 +60,12 @@ function getDots(data, clock){
         }
 
         dots.push({
-            video: videoType
-            ,second: Math.round(clock/1000)
-            ,frame: ixFrame
+            //video: videoType
+            //,second: Math.round(clock/1000)
+            frame: ixFrame
             ,x: xx
             ,y: yy
+            ,value: Math.floor((Math.random() * 10) + 1)
         });
         
         ixFrame++;
