@@ -1,6 +1,9 @@
 var dots = [];
 var ixFrame = 0;
 var videoType = 0;
+
+var secsCount = 0;
+var frameCount = 0;
 /*
 0 - initial face localization
 1 - callibration
@@ -12,6 +15,7 @@ window.onload = function() {
     webgazer.setRegression('weightedRidge') /* currently must set regression and tracker */
         .setTracker('clmtrackr')
         .setGazeListener(function(data, clock) {
+            console.log(data);
             getDots(data, clock);
         })
         .begin()
@@ -51,22 +55,51 @@ function getDots(data, clock){
         
         var xx = 0; 
         var yy = 0;
+        var greenMask = 0;
+        var vv = Math.floor((Math.random() * 10) + 1);
+        var sec = Math.round(clock/1000);
 
-        if(data!=null){
+        //retrieve information IF ONLY IF the face was detected
+        if(data==null){
+            xx = -1;
+            yy = -1;
+            vv = 0;
+        }
+        else{
+            greenMask = 1;
             if(data.x > 0)
                 xx = data.x;
             if(data.y > 0)
                 yy = data.y;    
         }
 
-        dots.push({
-            //video: videoType
-            //,second: Math.round(clock/1000)
-            frame: ixFrame
-            ,x: xx
-            ,y: yy
-            ,value: Math.floor((Math.random() * 10) + 1)
-        });
+        //seconds counting
+        if(frameCount == 0){
+            secsCount = sec;
+            frameCount++;
+        }
+        else{
+            if(secsCount < sec)
+                frameCount = 0;
+            else    
+                frameCount++;
+        }        
+        
+        //storage only the firs 4 frames
+        if(frameCount < 4){
+            dots.push({
+                //video: videoType
+                g: greenMask
+                ,s: sec
+                ,f: ixFrame
+                ,xf: frameCount
+                ,x: xx
+                ,y: yy
+                ,v: vv
+            });    
+        }
+
+        
         
         ixFrame++;
     }
