@@ -109,7 +109,17 @@ li {
 
 #content_video{
     top:50px;
+}
+
+#videoDiv{
+    position: absolute;
     
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-content: center;
+    align-content: center;
 }
 
 #webgazerFaceOverlay,

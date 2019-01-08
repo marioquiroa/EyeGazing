@@ -4,6 +4,9 @@ var videoType = 0;
 
 var secsCount = 0;
 var frameCount = 0;
+
+var widthVideo = 1280;
+var heightVideo = 720;
 /*
 0 - initial face localization
 1 - callibration
@@ -15,7 +18,7 @@ window.onload = function() {
     webgazer.setRegression('weightedRidge') /* currently must set regression and tracker */
         .setTracker('clmtrackr')
         .setGazeListener(function(data, clock) {
-            console.log(data);
+            //console.log(data);
             getDots(data, clock);
         })
         .begin()
@@ -31,12 +34,15 @@ window.onload = function() {
         canvas.height = window.innerHeight;
         canvas.style.position = 'fixed';
         
-        
         var content_video = document.getElementById("content_video");
-		content_video.width = window.innerWidth;
-        content_video.height = window.innerHeight - 60;
+        content_video.height = window.innerHeight - 50;
+        content_video.width = content_video.height/(heightVideo/widthVideo);
         content_video.style.position = 'fixed';
 
+        var space = (canvas.width - content_video.width)/2;
+        $("#videoDiv").css("left", space + "px");
+
+        
     };
 
     function checkIfReady() {
