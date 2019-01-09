@@ -1,7 +1,12 @@
 <?php
     error_reporting(E_ALL);
-    $data = $_POST['something']; // the key we sent was "something"
     $f = fopen('file.json', 'w+');
+
+    $data = $_POST['something'];
+    
+    //$cleanData = json_decode($data);
+    //fwrite($f, $cleanData);
+
     fwrite($f, $data);
     fclose($f);
 ?>

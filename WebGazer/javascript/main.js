@@ -7,6 +7,16 @@ var frameCount = 0;
 
 var widthVideo = 1280;
 var heightVideo = 720;
+var durationVideo = 25;
+
+var myJSONObject = {
+    "method" : "webgazer",
+    "task_id": "43221",
+    "tester_id": "d89041706524f68eab9ee1dfpablox01"
+};
+
+var clockReset = -1;
+
 /*
 0 - initial face localization
 1 - callibration
@@ -24,6 +34,8 @@ window.onload = function() {
         .begin()
         .showPredictionPoints(true); /* shows a square every 100 milliseconds where current prediction is */
 
+    myJSONObject.original_media_width = widthVideo;
+    myJSONObject.original_media_height = heightVideo;
 
     //Set up the webgazer video feedback.
     var setup = function() {
@@ -33,15 +45,23 @@ window.onload = function() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         canvas.style.position = 'fixed';
+
+        myJSONObject.calibration_screen_width = canvas.width;
+        myJSONObject.calibration_screen_height = canvas.height;
         
         var content_video = document.getElementById("content_video");
         content_video.height = window.innerHeight - 50;
         content_video.width = content_video.height/(heightVideo/widthVideo);
         content_video.style.position = 'fixed';
 
+        myJSONObject.displayed_media_width = content_video.width;
+        myJSONObject.displayed_media_height = content_video.height;
+
         var space = (canvas.width - content_video.width)/2;
         $("#videoDiv").css("left", space + "px");
 
+        myJSONObject.relative_initial_media_x = space;
+        myJSONObject.relative_initial_media_y = canvas.height - content_video.height;
         
     };
 
@@ -49,21 +69,26 @@ window.onload = function() {
         if (webgazer.isReady()) {
             setup();
         } else {
-            setTimeout(checkIfReady, 1000);
+            setTimeout(checkIfReady, 100);
         }
     }
-    setTimeout(checkIfReady,100);
+    setTimeout(checkIfReady,1000);
 
 };
 
 function getDots(data, clock){
     if (videoType==2){
+
+        if(clockReset < 0){
+            clockReset = clock;
+        }
+
         
         var xx = 0; 
         var yy = 0;
         var greenMask = 0;
         var vv = Math.floor((Math.random() * 10) + 1);
-        var sec = Math.round(clock/1000);
+        var sec = Math.round((clock - clockReset + 1)/1000);
 
         //retrieve information IF ONLY IF the face was detected
         if(data==null){
@@ -113,11 +138,14 @@ function getDots(data, clock){
 
 function SaveDots(fileName){
 
+    myJSONObject.media_duration = durationVideo;
+    myJSONObject.data = dots;
+
     $.ajax({
         type: 'POST',
         url: "saveDots.php",
         data: {
-            something: JSON.stringify(dots)
+            something: JSON.stringify(myJSONObject)
         },
         success: function(result) {
             $("#content_video").hide();
