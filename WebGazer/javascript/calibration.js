@@ -96,7 +96,7 @@ $(document).ready(function(){
                       stop_storing_points_variable(); // stop storing the prediction points
                       var past50 = get_points() // retrieve the stored points
                       var precision_measurement = calculatePrecision(past50);
-                      myJSONObject.calibration_accuracy = precision_measurement;
+                      jsonObj.calibration_accuracy = precision_measurement;
                       var accuracyLabel = "<a>Accuracy | "+precision_measurement+"%</a>";
                       document.getElementById("Accuracy").innerHTML = accuracyLabel; // Show the accuracy in the nav bar.
                       swal({

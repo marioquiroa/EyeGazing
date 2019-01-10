@@ -5,17 +5,24 @@ var videoType = 0;
 var secsCount = 0;
 var frameCount = 0;
 
-var widthVideo = 1280;
-var heightVideo = 720;
-var durationVideo = 25;
+var widthVideo = 320;
+var heightVideo = 240;
+var durationVideo = 14;
 
-var myJSONObject = {
+var jsonObj = {
     "method" : "webgazer",
-    "task_id": "43221",
+    "task_id": "476",
     "tester_id": "d89041706524f68eab9ee1dfpablox01"
 };
 
 var clockReset = -1;
+
+var spaceX = 0;
+var spaceY = 0;
+var limitX = 0;
+var limitY = 0;
+
+var allowFPS = 4;
 
 /*
 0 - initial face localization
@@ -34,8 +41,8 @@ window.onload = function() {
         .begin()
         .showPredictionPoints(true); /* shows a square every 100 milliseconds where current prediction is */
 
-    myJSONObject.original_media_width = widthVideo;
-    myJSONObject.original_media_height = heightVideo;
+    jsonObj.original_media_width = widthVideo;
+    jsonObj.original_media_height = heightVideo;
 
     //Set up the webgazer video feedback.
     var setup = function() {
@@ -46,22 +53,38 @@ window.onload = function() {
         canvas.height = window.innerHeight;
         canvas.style.position = 'fixed';
 
-        myJSONObject.calibration_screen_width = canvas.width;
-        myJSONObject.calibration_screen_height = canvas.height;
+        jsonObj.calibration_screen_width = canvas.width;
+        jsonObj.calibration_screen_height = canvas.height - 50;
         
+
+
+
+
+
         var content_video = document.getElementById("content_video");
         content_video.height = window.innerHeight - 50;
         content_video.width = content_video.height/(heightVideo/widthVideo);
         content_video.style.position = 'fixed';
 
-        myJSONObject.displayed_media_width = content_video.width;
-        myJSONObject.displayed_media_height = content_video.height;
+        jsonObj.displayed_media_width = content_video.width;
+        jsonObj.displayed_media_height = content_video.height;
 
-        var space = (canvas.width - content_video.width)/2;
-        $("#videoDiv").css("left", space + "px");
+        
 
-        myJSONObject.relative_initial_media_x = space;
-        myJSONObject.relative_initial_media_y = canvas.height - content_video.height;
+
+
+
+
+        spaceX = (jsonObj.calibration_screen_width - jsonObj.displayed_media_width)/2;
+        spaceY = jsonObj.displayed_media_height - jsonObj.displayed_media_height;
+
+        limitX = spaceX + jsonObj.displayed_media_width;
+        limitY = spaceY + jsonObj.displayed_media_height;
+
+        $("#videoDiv").css("left", spaceX + "px");
+
+        jsonObj.relative_initial_media_x = spaceX;
+        jsonObj.relative_initial_media_y = spaceY;
         
     };
 
@@ -86,18 +109,17 @@ function getDots(data, clock){
         
         var xx = 0; 
         var yy = 0;
-        var greenMask = 0;
-        var vv = Math.floor((Math.random() * 10) + 1);
+        //var greenMask = 0;
+        //var vv = Math.floor((Math.random() * 10) + 1);
         var sec = Math.round((clock - clockReset + 1)/1000);
 
         //retrieve information IF ONLY IF the face was detected
         if(data==null){
             xx = -1;
             yy = -1;
-            vv = 0;
         }
         else{
-            greenMask = 1;
+            //greenMask = 1;
             if(data.x > 0)
                 xx = data.x;
             if(data.y > 0)
@@ -115,19 +137,29 @@ function getDots(data, clock){
             else    
                 frameCount++;
         }        
+
+        //normalization
+        //var slope = (output_end - output_start) / (input_end - input_start)
+        //var output = output_start + slope * (input - input_start)
+
+        //var slope = (output_end/input_end)*input
         
         //storage only the firs 4 frames
-        if(frameCount < 4){
-            dots.push({
-                //video: videoType
-                g: greenMask
-                ,s: sec
-                ,f: ixFrame
-                ,xf: frameCount
-                ,x: xx
-                ,y: yy
-                ,v: vv
-            });    
+        if(frameCount < allowFPS){
+            if(xx > spaceX && xx < limitX && yy > spaceY && yy < limitY)
+                dots.push({
+                    second: sec
+                    ,frame: ixFrame
+                    ,x: Math.round(((xx - spaceX) / jsonObj.displayed_media_width ) * jsonObj.original_media_width)
+                    ,y: Math.round(((yy - spaceY) / jsonObj.displayed_media_height ) * jsonObj.original_media_height)
+                });    
+            else
+                dots.push({
+                    second: sec
+                    ,frame: ixFrame
+                    ,x: -1
+                    ,y: -1
+                });    
         }
 
         
@@ -138,14 +170,14 @@ function getDots(data, clock){
 
 function SaveDots(fileName){
 
-    myJSONObject.media_duration = durationVideo;
-    myJSONObject.data = dots;
+    jsonObj.media_duration = durationVideo;
+    jsonObj.data = dots;
 
     $.ajax({
         type: 'POST',
         url: "saveDots.php",
         data: {
-            something: JSON.stringify(myJSONObject)
+            something: JSON.stringify(jsonObj)
         },
         success: function(result) {
             $("#content_video").hide();
